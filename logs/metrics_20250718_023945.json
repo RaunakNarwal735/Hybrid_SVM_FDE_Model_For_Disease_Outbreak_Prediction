@@ -1,0 +1,36 @@
+{
+  "target": "Reported_Cases",
+  "features": [
+    "Intervention_Flag",
+    "Reported_Cases_lag1",
+    "Reported_Cases_lag2",
+    "Reported_Cases_lag3",
+    "Beta_Effective",
+    "Season_Index",
+    "Reporting_Prob"
+  ],
+  "svr_params": {
+    "C": 100,
+    "epsilon": 0.5,
+    "gamma": 0.01
+  },
+  "SVR": {
+    "RMSE": 2.683970417706475,
+    "MAE": 2.0512968139427152,
+    "R2": 0.0
+  },
+  "Naive": {
+    "RMSE": 0.0,
+    "MAE": 0.0,
+    "R2": 1.0
+  },
+  "SIR": {
+    "RMSE": 0.007058069735067313,
+    "MAE": 0.00534896328442375,
+    "R2": 0.0
+  },
+  "SIR_params": {
+    "beta": 0.3569714465224653,
+    "gamma": 0.10100958194051309
+  }
+}
