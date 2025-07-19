@@ -453,7 +453,50 @@ def main():
     save_outputs(df, params, out_dir)
 
     print("\nGeneration complete!")
+def generate_batch(count=5):
+    """
+    Generate 'count' random epidemic datasets without plots.
+    Datasets are stored in a timestamped batch folder.
+    """
+    batch_id = ts()
+    base_batch_dir = os.path.join(BASE_SAVE_DIR, f"batch_{batch_id}")
+    ensure_dir(base_batch_dir)
 
+    print(f"\n=== BATCH GENERATION: {count} datasets ===")
+    for i in range(1, count + 1):
+        params = generate_random_inputs()
+        df = simulate_epidemic(params)
+
+        run_dir = os.path.join(base_batch_dir, f"run_{i:03d}")
+        ensure_dir(run_dir)
+
+        csv_path = os.path.join(run_dir, "dataset.csv")
+        json_path = os.path.join(run_dir, "params.json")
+
+        df.to_csv(csv_path, index=False)
+        with open(json_path, "w") as f:
+            json.dump(params, f, indent=4)
+
+        print(f"  Dataset {i}/{count} -> {csv_path}")
+
+    print(f"\nAll datasets saved in: {base_batch_dir}")
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) > 1:
+        mode = sys.argv[1].lower()
+        if mode == "interact":
+            params = get_user_inputs()
+            df = simulate_epidemic(params)
+            out_dir = os.path.join(BASE_SAVE_DIR, f"run_{ts()}")
+            save_outputs(df, params, out_dir)
+        elif mode == "batch":
+            # Example: python BIGBOY1.py batch 10
+            count = int(sys.argv[2]) if len(sys.argv) > 2 else 5
+            generate_batch(count)
+        else:
+            print("Unknown mode! Use: 'interact' or 'batch <count>'.")
+    else:
+        params = generate_random_inputs()
+        df = simulate_epidemic(params)
+        out_dir = os.path.join(BASE_SAVE_DIR, f"run_{ts()}")
+        save_outputs(df, params, out_dir)
