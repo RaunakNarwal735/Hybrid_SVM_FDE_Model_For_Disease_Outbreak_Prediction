@@ -233,47 +233,87 @@ def get_user_inputs():
 # =========================================================
 # RANDOM PARAM GENERATOR
 # =========================================================
-def generate_random_inputs():
+def generate_random_inputs(batch_fixed=None):
     """
     Generate a random but realistic parameter config.
     Returns:
         dict of parameters
     """
     population = random.randint(10_000, 1_000_000)
-    days = random.randint(90, 365)
-    max_init = max(1, min(population // 20, 5000))
-    initial_infected = random.randint(10, max_init)
+    if batch_fixed is None:
+        days = random.randint(90, 365)
+        max_init = max(1, min(population // 20, 5000))
+        initial_infected = random.randint(10, max_init)
 
-    mask_score = random.randint(1, 10)
-    crowdedness_score = random.randint(1, 10)
+        mask_score = random.randint(1, 10)
+        crowdedness_score = random.randint(1, 10)
 
-    quarantine_enabled = random.choice(["y", "n"])
-    seasonality_enabled = random.choice(["y", "n"])
-    interventions_enabled = random.choice(["y", "n"])
-    multi_wave = random.choice(["y", "n"])
+        quarantine_enabled = random.choice(["y", "n"])
+        seasonality_enabled = random.choice(["y", "n"])
+        interventions_enabled = random.choice(["y", "n"])
+        multi_wave = random.choice(["y", "n"])
 
-    vaccination_enabled = random.choice(["y", "n"])
-    daily_vaccination_rate = round(random.uniform(0.0, 0.02), 3)  # up to 2% per day
-    incubation_period = random.randint(2, 7)
-    testing_rate = random.choice(["low", "medium", "high"])
-    mask_decay_rate = round(random.uniform(0.005, 0.02), 4)
+        vaccination_enabled = random.choice(["y", "n"])
+        daily_vaccination_rate = round(random.uniform(0.0, 0.02), 3)  # up to 2% per day
+        incubation_period = random.randint(2, 7)
+        testing_rate = random.choice(["low", "medium", "high"])
+        mask_decay_rate = round(random.uniform(0.005, 0.02), 4)
 
-    travel_enabled = random.choice(["y", "n"])
-    travel_max = random.randint(1, 10) if yn_to_bool(travel_enabled) else 0
+        travel_enabled = random.choice(["y", "n"])
+        travel_max = random.randint(1, 10) if yn_to_bool(travel_enabled) else 0
 
-    low = round(random.uniform(0.3, 0.6), 2)
-    high = round(random.uniform(low + 0.1, 0.95), 2)
+        low = round(random.uniform(0.3, 0.6), 2)
+        high = round(random.uniform(low + 0.1, 0.95), 2)
 
-    random_seed = random.randint(1, 999999)
+        random_seed = random.randint(1, 999999)
 
-    # Unified variant/multi-wave
-    num_waves = random.randint(1, 2)
-    waves = []
-    for i in range(num_waves):
-        wave_day = random.randint(30 + i*30, 120 + i*30)
-        wave_beta = round(random.uniform(1.2, 2.5), 2)
-        wave_seed = random.randint(20, 100)
-        waves.append({"day": wave_day, "beta": wave_beta, "seed": wave_seed})
+        # Unified variant/multi-wave
+        num_waves = random.randint(1, 2)
+        waves = []
+        for i in range(num_waves):
+            wave_day = random.randint(30 + i*30, 120 + i*30)
+            wave_beta = round(random.uniform(1.2, 2.5), 2)
+            wave_seed = random.randint(20, 100)
+            waves.append({"day": wave_day, "beta": wave_beta, "seed": wave_seed})
+    else:
+        days = batch_fixed.get('days') if batch_fixed.get('days') is not None else random.randint(90, 365)
+        max_init = max(1, min(population // 20, 5000))
+        initial_infected = random.randint(10, max_init)
+
+        mask_score = batch_fixed.get('mask_score') if batch_fixed.get('mask_score') is not None else random.randint(1, 10)
+        crowdedness_score = random.randint(1, 10)
+
+        quarantine_enabled = random.choice(["y", "n"])
+        seasonality_enabled = random.choice(["y", "n"])
+        interventions_enabled = random.choice(["y", "n"])
+        multi_wave = random.choice(["y", "n"])
+
+        vaccination_enabled = random.choice(["y", "n"])
+        daily_vaccination_rate = round(random.uniform(0.0, 0.02), 3)  # up to 2% per day
+        incubation_period = random.randint(2, 7)
+        testing_rate = random.choice(["low", "medium", "high"])
+        mask_decay_rate = round(random.uniform(0.005, 0.02), 4)
+
+        travel_enabled = random.choice(["y", "n"])
+        travel_max = random.randint(1, 10) if yn_to_bool(travel_enabled) else 0
+
+        low = round(random.uniform(0.3, 0.6), 2)
+        high = round(random.uniform(low + 0.1, 0.95), 2)
+
+        random_seed = random.randint(1, 999999)
+
+        # Unified variant/multi-wave
+        num_waves = batch_fixed.get('multi_wave_count') if batch_fixed.get('multi_wave_count') is not None else random.randint(1, 2)
+        wave_days = [int(x) for x in batch_fixed.get('wave_days', '').split(',')] if batch_fixed.get('wave_days') else [60 + i*30 for i in range(num_waves)]
+        wave_betas = [float(x) for x in batch_fixed.get('wave_betas', '').split(',')] if batch_fixed.get('wave_betas') else [2.5]*num_waves
+        wave_seeds = [int(x) for x in batch_fixed.get('wave_seeds', '').split(',')] if batch_fixed.get('wave_seeds') else [100]*num_waves
+        waves = []
+        for i in range(num_waves):
+            waves.append({
+                'day': wave_days[i] if i < len(wave_days) else 60 + i*30,
+                'beta': wave_betas[i] if i < len(wave_betas) else 2.5,
+                'seed': wave_seeds[i] if i < len(wave_seeds) else 100
+            })
 
     params = {
         "population": population,
@@ -607,6 +647,13 @@ def main():
     parser.add_argument('--plots', dest='save_plots', action='store_true', help='Save plots (default)')
     parser.add_argument('--no-plots', dest='save_plots', action='store_false', help='Do not save plots')
     parser.add_argument('--help', action='store_true', help='Show help message and exit')
+    # Batch fixed params
+    parser.add_argument('--days', type=int, help='Number of days for each dataset in batch')
+    parser.add_argument('--mask_score', type=int, help='Mask adherence 1-10')
+    parser.add_argument('--multi_wave_count', type=int, help='Number of multi-waves/variants')
+    parser.add_argument('--wave_days', type=str, help='Comma-separated days for each wave (e.g. 60,100)')
+    parser.add_argument('--wave_betas', type=str, help='Comma-separated beta multipliers for each wave (e.g. 2.5,2.0)')
+    parser.add_argument('--wave_seeds', type=str, help='Comma-separated seeds for each wave (e.g. 100,80)')
     parser.set_defaults(save_plots=True)
     args, unknown = parser.parse_known_args()
 
@@ -622,7 +669,15 @@ def main():
         save_outputs(df, params, out_dir, save_plots=args.save_plots)
     elif args.mode == 'batch':
         count = args.count
-        generate_batch(count, use_sir=args.sir, save_plots=args.save_plots)
+        batch_fixed = {
+            'days': args.days,
+            'mask_score': args.mask_score,
+            'multi_wave_count': args.multi_wave_count,
+            'wave_days': args.wave_days,
+            'wave_betas': args.wave_betas,
+            'wave_seeds': args.wave_seeds
+        }
+        generate_batch(count, use_sir=args.sir, save_plots=args.save_plots, batch_fixed=batch_fixed)
     elif args.mode is None:
         params = generate_random_inputs()
         df = simulate_epidemic(params, use_sir=args.sir)
@@ -655,14 +710,14 @@ Examples:
 """)
 
 
-def generate_batch(count=5, use_sir=False, save_plots=True):
+def generate_batch(count=5, use_sir=False, save_plots=True, batch_fixed=None):
     batch_id = ts()
     base_batch_dir = os.path.join(BASE_SAVE_DIR, f"batch_{batch_id}")
     ensure_dir(base_batch_dir)
 
     print(f"\n=== BATCH GENERATION: {count} datasets ===")
     for i in range(1, count + 1):
-        params = generate_random_inputs()
+        params = generate_random_inputs(batch_fixed=batch_fixed)
         df = simulate_epidemic(params, use_sir=use_sir)
         run_dir = os.path.join(base_batch_dir, f"run_{i:03d}")
         ensure_dir(run_dir)

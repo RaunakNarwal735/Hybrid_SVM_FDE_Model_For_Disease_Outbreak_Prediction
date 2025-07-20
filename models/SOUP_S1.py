@@ -180,8 +180,17 @@ def build_training_matrix(data_dir, n_lags=7, target_override=None):
         df2["SIR_Base"] = sir_pred
         df2["Residual"] = residual
 
-        df2 = add_lags(df2, "Target", n_lags)
-
+        # Add lags for Target, SIR_Base, Infected (if present)
+        for lag in range(1, n_lags + 1):
+            df2[f"Target_lag{lag}"] = df2["Target"].shift(lag)
+            df2[f"SIR_Base_lag{lag}"] = df2["SIR_Base"].shift(lag)
+            if "Infected" in df2.columns:
+                df2[f"Infected_lag{lag}"] = df2["Infected"].shift(lag)
+        # Moving averages and std
+        df2["MA7_Target"] = df2["Target"].rolling(7, min_periods=1).mean().shift(1)
+        df2["STD7_Target"] = df2["Target"].rolling(7, min_periods=1).std().shift(1)
+        # Calendar features
+        df2["DayOfWeek"] = df2["Day"] % 7 if "Day" in df2.columns else np.arange(len(df2)) % 7
         # Tag dataset ID as folder name (e.g., run_001)
         df2["Dataset_ID"] = os.path.basename(os.path.dirname(fpath))
 
@@ -234,7 +243,7 @@ def prepare_xy(train_df, test_df, n_lags):
     # We'll include Day; it's numeric; remove if undesired.
 
     # Identify lag columns
-    lag_cols = [c for c in train_df.columns if c.startswith("Target_lag")]
+    lag_cols = [c for c in train_df.columns if c.startswith("Target_lag") or c.startswith("SIR_Base_lag") or c.startswith("Infected_lag")]
 
     # numeric columns
     train_num = [c for c in train_df.columns if pd.api.types.is_numeric_dtype(train_df[c])]
@@ -245,8 +254,13 @@ def prepare_xy(train_df, test_df, n_lags):
             continue
         feature_cols.append(c)
 
+    # Add context columns if present
+    for col in ["Susceptible", "Infected", "Recovered", "Beta_Effective", "Season_Index", "Intervention_Flag"]:
+        if col in train_df.columns and col not in feature_cols:
+            feature_cols.append(col)
+
     # guarantee lag order
-    feature_cols = [c for c in feature_cols if c not in lag_cols] + sorted(lag_cols, key=lambda x: int(x.split("lag")[-1]))
+    feature_cols = [c for c in feature_cols if c not in lag_cols] + sorted(lag_cols, key=lambda x: (x.split('_')[0], int(x.split('lag')[-1])) if 'lag' in x else (x, 0))
 
     # align test
     for c in feature_cols:
@@ -273,10 +287,10 @@ def prepare_xy(train_df, test_df, n_lags):
 def train_svr(X_train, y_train, grid_search=True):
     if grid_search:
         param_grid = {
-            "C": [1, 10, 100, 1000],
-            "epsilon": [0.01, 0.1, 0.5, 1.0],
-            "gamma": ["scale", 0.01, 0.1, 1.0],
-            "kernel": ["rbf"],
+            "C": [1, 10, 100, 1000, 10000],
+            "epsilon": [0.01, 0.05, 0.1, 0.5, 1.0],
+            "gamma": ["scale", 0.001, 0.01, 0.1, 1.0],
+            "kernel": ["rbf", "linear", "poly"],
         }
         svr = SVR()
         grid = GridSearchCV(
