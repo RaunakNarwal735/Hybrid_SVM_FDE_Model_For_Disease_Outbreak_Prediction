@@ -1,0 +1,57 @@
+{
+    "target_used": "Reported_Cases",
+    "lags": 7,
+    "test_frac": 0.2,
+    "svr_params": {
+        "C": 1,
+        "epsilon": 1.0,
+        "gamma": 1.0,
+        "kernel": "rbf"
+    },
+    "feature_cols": [
+        "Day",
+        "SIR_Base",
+        "Susceptible",
+        "Infected",
+        "Recovered",
+        "Reported_Cases",
+        "Beta_Effective",
+        "Season_Index",
+        "Target_lag1",
+        "Target_lag2",
+        "Target_lag3",
+        "Target_lag4",
+        "Target_lag5",
+        "Target_lag6",
+        "Target_lag7"
+    ],
+    "overall_metrics": {
+        "SIR": {
+            "RMSE": 2401.608936021239,
+            "MAE": 819.0133213130545,
+            "R2": -0.1316043209694604
+        },
+        "Hybrid": {
+            "RMSE": 2259.552787478822,
+            "MAE": 1224.7023955754091,
+            "R2": -0.0016938304205009747
+        }
+    },
+    "per_dataset_metrics": {
+        "India_20250721_015302": {
+            "SIR": {
+                "RMSE": 2401.608936021239,
+                "MAE": 819.0133213130545,
+                "R2": -0.1316043209694604
+            },
+            "Hybrid": {
+                "RMSE": 2259.552787478822,
+                "MAE": 1224.7023955754091,
+                "R2": -0.0016938304205009747
+            }
+        }
+    },
+    "n_train_rows": 1170,
+    "n_test_rows": 292,
+    "n_datasets": 1
+}

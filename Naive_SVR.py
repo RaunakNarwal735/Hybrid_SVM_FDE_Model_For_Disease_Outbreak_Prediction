@@ -15,10 +15,25 @@ from models.utils import chrono_split, compute_metrics
 # ------------------------------------------------------------
 def make_supervised(df, target_col="Reported_Cases", n_lags=3, dataset_id=""):
     df = df.copy()
+    # 7-day rolling average for Naive
+    df["Naive"] = df[target_col].rolling(7, min_periods=1).mean().shift(1)
+    # Residual and lagged residuals
+    df["Residual"] = df[target_col] - df["Naive"]
+    df["Residual_lag1"] = df["Residual"].shift(1)
+    df["Residual_lag2"] = df["Residual"].shift(2)
+    # Additional features
+    df["DayOfWeek"] = df["Day"] % 7 if "Day" in df.columns else np.arange(len(df)) % 7
+    df["Trend"] = df[target_col] - df["Naive"]
+    df["Lag1"] = df[target_col].shift(1)
+    df["Lag2"] = df[target_col].shift(2)
+    df["Lag7"] = df[target_col].shift(7)
+    df["STD7"] = df[target_col].rolling(7, min_periods=1).std().shift(1)
+    # Add S, I, R, Beta_Effective, Season_Index if available
+    for col in ["Susceptible", "Infected", "Recovered", "Beta_Effective", "Season_Index"]:
+        if col in df.columns:
+            df[col] = df[col]
     for lag in range(1, n_lags + 1):
         df[f"{target_col}_lag{lag}"] = df[target_col].shift(lag)
-    df["Naive"] = df[target_col].shift(1)
-    df["Residual"] = df[target_col] - df["Naive"]
     df["Target"] = df["Residual"].shift(-1)
     df["Dataset_ID"] = dataset_id
     return df.dropna().reset_index(drop=True)
@@ -41,7 +56,12 @@ def train_naive_svr_batch(data_dir, target_col="Reported_Cases", n_lags=3, train
         all_data.append(supervised)
 
     big_df = pd.concat(all_data, ignore_index=True)
-    features = [c for c in big_df.columns if c.startswith(f"{target_col}_lag")]
+    # Use all new features for SVR
+    features = [
+        "DayOfWeek", "Trend", "Lag1", "Lag2", "Lag7", "Residual_lag1", "Residual_lag2", "STD7",
+        "Susceptible", "Infected", "Recovered", "Beta_Effective", "Season_Index"
+    ] + [c for c in big_df.columns if c.startswith(f"{target_col}_lag")]
+    features = [f for f in features if f in big_df.columns]  # Only keep features that exist
 
     train_df, test_df = chrono_split(big_df, train_frac)
     X_train, X_test = train_df[features].values, test_df[features].values

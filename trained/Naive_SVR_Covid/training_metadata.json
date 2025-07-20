@@ -1,0 +1,25 @@
+{
+    "feature_cols": [
+        "DayOfWeek",
+        "Trend",
+        "Lag1",
+        "Lag2",
+        "Lag7",
+        "Residual_lag1",
+        "Residual_lag2",
+        "STD7",
+        "Susceptible",
+        "Infected",
+        "Recovered",
+        "Beta_Effective",
+        "Season_Index",
+        "Reported_Cases_lag1",
+        "Reported_Cases_lag2",
+        "Reported_Cases_lag3"
+    ],
+    "metrics": {
+        "RMSE": 711.9448684533082,
+        "MAE": 251.55214965374145,
+        "R2": 0.9008633263688051
+    }
+}
