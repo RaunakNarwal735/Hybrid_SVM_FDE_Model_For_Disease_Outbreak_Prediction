@@ -15,6 +15,8 @@ from sklearn.svm import SVR
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+from sklearn.model_selection import TimeSeriesSplit
+from tqdm import tqdm
 
 from joblib import dump
 
@@ -349,68 +351,49 @@ def main():
     # Build training matrix
     big_df, sir_params, target_col = build_training_matrix(args.data_dir, n_lags=args.lags)
 
-    # Split chronologically within each dataset
-    train_df, test_df = split_train_test(big_df, test_frac=args.test_frac)
-
-    # Prepare matrices
-    X_train, y_train, X_test, y_test, feature_cols = prepare_xy(train_df, test_df, n_lags=args.lags)
-
-    # Scale
-    scaler = StandardScaler()
-    X_train_s = scaler.fit_transform(X_train)
-    X_test_s = scaler.transform(X_test)
-
-    # Train SVR on residuals
-    model, params = train_svr(X_train_s, y_train, grid_search=not args.no_grid)
-
-    # Predict residual corrections
-    svr_resid_pred = model.predict(X_test_s)
-
-    # Build hybrid predictions: SEIR_Base + SVR residual
-    seir_base_test = test_df["SEIR_Base"].values
-    hybrid_pred = seir_base_test + svr_resid_pred
-    hybrid_pred = np.clip(hybrid_pred, 0, None)
-
-    # Evaluate
-    y_true_test = test_df["Target"].values
-    overall_metrics = compute_metrics(y_true_test, seir_base_test, hybrid_pred)
-    ds_metrics = per_dataset_metrics(test_df, hybrid_pred)
-
-    # Save artifacts
+    # Time series cross-validation
+    tscv = TimeSeriesSplit(n_splits=5)
+    metrics_list = []
+    all_feature_cols = None
+    for fold, (train_idx, test_idx) in enumerate(tqdm(tscv.split(big_df), total=tscv.get_n_splits(), desc='Training Progress')):
+        train_df = big_df.iloc[train_idx]
+        test_df = big_df.iloc[test_idx]
+        X_train, y_train, X_test, y_test, feature_cols = prepare_xy(train_df, test_df, n_lags=args.lags)
+        if all_feature_cols is None:
+            all_feature_cols = feature_cols
+        scaler = StandardScaler()
+        X_train_s = scaler.fit_transform(X_train)
+        X_test_s = scaler.transform(X_test)
+        model, params = train_svr(X_train_s, y_train, grid_search=not args.no_grid)
+        svr_resid_pred = model.predict(X_test_s)
+        seir_base_test = test_df["SEIR_Base"].values
+        hybrid_pred = seir_base_test + svr_resid_pred
+        hybrid_pred = np.clip(hybrid_pred, 0, None)
+        y_true_test = test_df["Target"].values
+        metrics = compute_metrics(y_true_test, seir_base_test, hybrid_pred)
+        metrics_list.append(metrics)
+    # Aggregate metrics
+    def agg_metric(metric_name, model_name):
+        vals = [m[model_name][metric_name] for m in metrics_list]
+        return np.mean(vals), np.std(vals)
+    print("\n=== Cross-Validation Results ===")
+    for model in ["SIR", "Hybrid"]:
+        for metric in ["RMSE", "MAE", "R2"]:
+            mean, std = agg_metric(metric, model)
+            print(f"{model} {metric}: {mean:.4f} ± {std:.4f}")
+    # Save last model/scaler/params for deployment
     dump(model, os.path.join(args.out_dir, "hybrid_svr.joblib"))
     dump(scaler, os.path.join(args.out_dir, "scaler.joblib"))
-
     with open(os.path.join(args.out_dir, "sir_params.json"), "w") as f:
         json.dump(sir_params, f, indent=4)
-
-    # Predictions CSV (test rows only)
-    pred_df = test_df.copy()
-    pred_df["Hybrid_Pred"] = hybrid_pred
-    pred_df["Hybrid_Residual_Pred"] = svr_resid_pred
-    pred_df.to_csv(os.path.join(args.out_dir, "predictions.csv"), index=False)
-
-    # Metrics JSON
-    meta = {
-        "target_used": target_col,
-        "lags": args.lags,
-        "test_frac": args.test_frac,
-        "svr_params": params,
-        "feature_cols": feature_cols,
-        "overall_metrics": overall_metrics,
-        "per_dataset_metrics": ds_metrics,
-        "n_train_rows": int(len(y_train)),
-        "n_test_rows": int(len(y_test)),
-        "n_datasets": int(len(sir_params)),
-    }
     with open(os.path.join(args.out_dir, "training_metadata.json"), "w") as f:
-        json.dump(meta, f, indent=4)
-
-    print("\n=== Hybrid Batch Training Complete ===")
-    print(f"Datasets used: {meta['n_datasets']}")
-    print(f"Train rows: {meta['n_train_rows']}  Test rows: {meta['n_test_rows']}")
-    print(f"Target: {target_col}")
-    print("SVR params:", params)
-    print("Overall Metrics:", overall_metrics)
+        json.dump({
+            "target_used": target_col,
+            "lags": args.lags,
+            "svr_params": params,
+            "feature_cols": all_feature_cols,
+            "cv_metrics": metrics_list
+        }, f, indent=4)
     print(f"Artifacts saved in: {args.out_dir}")
 
 
