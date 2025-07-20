@@ -1,0 +1,15 @@
+{
+    "population": 254795,
+    "days": 327,
+    "initial_infected": 939,
+    "mask_score": 8,
+    "crowdedness_score": 8,
+    "quarantine_enabled": "n",
+    "seasonality_enabled": "n",
+    "interventions_enabled": "y",
+    "reporting_prob_min": 0.49,
+    "reporting_prob_max": 0.75,
+    "multi_wave": "n",
+    "random_seed": 689960,
+    "mode": "random"
+}

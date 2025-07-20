@@ -1,0 +1,252 @@
+{
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_001\\dataset.csv": {
+        "beta": 1.2065539421742368,
+        "gamma": 0.9169818377336602,
+        "N": 323705.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_002\\dataset.csv": {
+        "beta": 0.6072165465896375,
+        "gamma": 0.5216839753857834,
+        "N": 630745.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_003\\dataset.csv": {
+        "beta": 1.2304122532393964,
+        "gamma": 0.9499929104118148,
+        "N": 489992.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_004\\dataset.csv": {
+        "beta": 0.392982666251314,
+        "gamma": 0.3688026320315879,
+        "N": 448467.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_005\\dataset.csv": {
+        "beta": 1.3247539258243353,
+        "gamma": 0.9475512304610725,
+        "N": 717295.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_006\\dataset.csv": {
+        "beta": 0.5338560368671591,
+        "gamma": 0.47311631306407065,
+        "N": 436768.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_007\\dataset.csv": {
+        "beta": 0.8518002248789839,
+        "gamma": 0.7082367446096172,
+        "N": 469799.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_008\\dataset.csv": {
+        "beta": 0.8870542867540334,
+        "gamma": 0.7303407962950902,
+        "N": 254795.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_009\\dataset.csv": {
+        "beta": 0.8558542914353328,
+        "gamma": 0.8211632846617235,
+        "N": 877410.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_010\\dataset.csv": {
+        "beta": 1.1452736503230772,
+        "gamma": 0.8657580522201485,
+        "N": 845589.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_011\\dataset.csv": {
+        "beta": 0.5806844620676749,
+        "gamma": 0.49758078054532934,
+        "N": 421234.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_012\\dataset.csv": {
+        "beta": 1.112551864492675,
+        "gamma": 0.9682271557115175,
+        "N": 293750.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_013\\dataset.csv": {
+        "beta": 0.6891334178517611,
+        "gamma": 0.5836238994270633,
+        "N": 978581.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_014\\dataset.csv": {
+        "beta": 1.0102512211026853,
+        "gamma": 0.8677372616267386,
+        "N": 594566.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_015\\dataset.csv": {
+        "beta": 0.39706056614808355,
+        "gamma": 0.3503600730815333,
+        "N": 922299.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_016\\dataset.csv": {
+        "beta": 0.828812239022507,
+        "gamma": 0.7398987086215393,
+        "N": 440578.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_017\\dataset.csv": {
+        "beta": 0.7388079798901589,
+        "gamma": 0.6649865952987823,
+        "N": 68860.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_018\\dataset.csv": {
+        "beta": 0.8901071668916986,
+        "gamma": 0.7468616604528509,
+        "N": 576691.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_019\\dataset.csv": {
+        "beta": 1.2099721738979974,
+        "gamma": 0.9276093028951052,
+        "N": 417172.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_020\\dataset.csv": {
+        "beta": 1.2445440504350522,
+        "gamma": 0.9398041590653461,
+        "N": 542037.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_021\\dataset.csv": {
+        "beta": 0.7255716788769626,
+        "gamma": 0.6475004718105674,
+        "N": 118994.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_022\\dataset.csv": {
+        "beta": 0.38712191489248515,
+        "gamma": 0.3696769121231479,
+        "N": 296061.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_023\\dataset.csv": {
+        "beta": 1.0695782374776317,
+        "gamma": 0.9124026261795526,
+        "N": 786146.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_024\\dataset.csv": {
+        "beta": 1.1976096814360278,
+        "gamma": 0.9411485180393739,
+        "N": 289714.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_025\\dataset.csv": {
+        "beta": 0.9490780290643667,
+        "gamma": 0.801679477150308,
+        "N": 142187.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_026\\dataset.csv": {
+        "beta": 0.5700163712830889,
+        "gamma": 0.4997801909506081,
+        "N": 95697.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_027\\dataset.csv": {
+        "beta": 0.8336298816531789,
+        "gamma": 0.7550339643881742,
+        "N": 139753.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_028\\dataset.csv": {
+        "beta": 1.1660978270284195,
+        "gamma": 0.9870460535218062,
+        "N": 698974.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_029\\dataset.csv": {
+        "beta": 0.7113449213779071,
+        "gamma": 0.6165133149772134,
+        "N": 583762.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_030\\dataset.csv": {
+        "beta": 0.7932403159880347,
+        "gamma": 0.6912333188087145,
+        "N": 649151.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_031\\dataset.csv": {
+        "beta": 1.048630580553308,
+        "gamma": 0.882249215568612,
+        "N": 565465.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_032\\dataset.csv": {
+        "beta": 1.3052946664962195,
+        "gamma": 0.9999999999999999,
+        "N": 48900.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_033\\dataset.csv": {
+        "beta": 0.5667427925692189,
+        "gamma": 0.5084176506622118,
+        "N": 683271.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_034\\dataset.csv": {
+        "beta": 0.655988546051104,
+        "gamma": 0.5627655090595415,
+        "N": 168051.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_035\\dataset.csv": {
+        "beta": 1.1834899150262572,
+        "gamma": 0.9393953565282739,
+        "N": 80956.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_036\\dataset.csv": {
+        "beta": 1.1621895969036522,
+        "gamma": 0.9055628825493567,
+        "N": 654823.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_037\\dataset.csv": {
+        "beta": 0.29659030114615487,
+        "gamma": 0.2830894391549573,
+        "N": 102003.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_038\\dataset.csv": {
+        "beta": 0.6927818246387145,
+        "gamma": 0.583610916716395,
+        "N": 587825.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_039\\dataset.csv": {
+        "beta": 0.9981960701581027,
+        "gamma": 0.8242308932571752,
+        "N": 145197.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_040\\dataset.csv": {
+        "beta": 0.5127109983203277,
+        "gamma": 0.46151245374039807,
+        "N": 782190.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_041\\dataset.csv": {
+        "beta": 0.5794157332828301,
+        "gamma": 0.5417848532704906,
+        "N": 159681.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_042\\dataset.csv": {
+        "beta": 0.6434450150553328,
+        "gamma": 0.5893369189644179,
+        "N": 182668.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_043\\dataset.csv": {
+        "beta": 0.9363680003336712,
+        "gamma": 0.795985144452928,
+        "N": 638758.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_044\\dataset.csv": {
+        "beta": 0.9746386442179796,
+        "gamma": 0.9433248113485636,
+        "N": 932960.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_045\\dataset.csv": {
+        "beta": 0.8129416738139039,
+        "gamma": 0.6790155962662704,
+        "N": 684301.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_046\\dataset.csv": {
+        "beta": 0.932751300184304,
+        "gamma": 0.7235449558515356,
+        "N": 729403.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_047\\dataset.csv": {
+        "beta": 0.4801386689044171,
+        "gamma": 0.40967922663665945,
+        "N": 537645.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_048\\dataset.csv": {
+        "beta": 1.027649265263749,
+        "gamma": 0.8320380168623035,
+        "N": 554646.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_049\\dataset.csv": {
+        "beta": 0.8894501549742984,
+        "gamma": 0.7282010439269683,
+        "N": 461197.0
+    },
+    "C:\\Users\\rishu narwal\\Desktop\\SVM_FDE\\datasets\\batch_20250720_031637\\run_050\\dataset.csv": {
+        "beta": 1.2902551390314472,
+        "gamma": 0.9999999999999999,
+        "N": 436664.0
+    }
+}

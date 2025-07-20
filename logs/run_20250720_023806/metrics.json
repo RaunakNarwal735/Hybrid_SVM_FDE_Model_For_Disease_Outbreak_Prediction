@@ -1,0 +1,62 @@
+{
+    "target": "Reported_Cases",
+    "train_frac": 0.8,
+    "nlags_local": 3,
+    "local_svr_params": {
+        "C": 100,
+        "epsilon": 0.01,
+        "gamma": 0.1
+    },
+    "SOUP_feature_cols": [
+        "Day",
+        "SIR_Base",
+        "Susceptible",
+        "Infected",
+        "Recovered",
+        "New_Infections",
+        "New_Recoveries",
+        "Reported_Cases",
+        "Beta_Effective",
+        "Season_Index",
+        "Intervention_Flag",
+        "Quarantine_Fraction",
+        "Reporting_Prob",
+        "MultiWave_Flag",
+        "Target_lag1",
+        "Target_lag2",
+        "Target_lag3",
+        "Target_lag4",
+        "Target_lag5",
+        "Target_lag6",
+        "Target_lag7"
+    ],
+    "SVR": {
+        "RMSE": 136.6244946541003,
+        "MAE": 124.91000884362848,
+        "R2": -188.21815307484997
+    },
+    "Naive": {
+        "RMSE": 5.336197147782305,
+        "MAE": 4.025,
+        "R2": 0.7113514403917917
+    },
+    "SOUP-S1": {
+        "RMSE": 33.78711933019718,
+        "MAE": 32.31641230654292,
+        "R2": -10.571988495953308
+    },
+    "notes": [
+        "SOUP-S1 uses pre-trained hybrid residual model",
+        "Plain SVR baseline trained locally (no SIR_Base in features)",
+        "All predictions clipped to >= 0"
+    ],
+    "SIR": {
+        "RMSE": 187.36698188242246,
+        "MAE": 171.0178127630763,
+        "R2": -354.8703326780127
+    },
+    "SIR_params": {
+        "beta": 0.14315684088991176,
+        "gamma": 0.0662865782737543
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "feature_cols": [
+        "Reported_Cases_lag1",
+        "Reported_Cases_lag2",
+        "Reported_Cases_lag3"
+    ],
+    "metrics": {
+        "RMSE": 556.6074493564707,
+        "MAE": 202.12913423383176,
+        "R2": 0.966317655506536
+    }
+}
