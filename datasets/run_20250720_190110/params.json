@@ -1,0 +1,23 @@
+{
+    "population": 502786,
+    "days": 330,
+    "initial_infected": 2022,
+    "mask_score": 5,
+    "crowdedness_score": 7,
+    "quarantine_enabled": "n",
+    "seasonality_enabled": "y",
+    "interventions_enabled": "n",
+    "reporting_prob_min": 0.51,
+    "reporting_prob_max": 0.82,
+    "multi_wave": "n",
+    "random_seed": 225018,
+    "vaccination_enabled": "n",
+    "daily_vaccination_rate": 0.012,
+    "incubation_period": 5,
+    "variant_enabled": "n",
+    "variant_day": 100,
+    "variant_beta_multiplier": 1.87,
+    "testing_rate": "medium",
+    "mask_decay_rate": 0.0184,
+    "mode": "random"
+}

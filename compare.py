@@ -121,27 +121,11 @@ def evaluate_single_dataset(csv_path, soup_model, soup_scaler, soup_features,
                 supervised[col] = 0.0
 
     # --------------------------------------------------
-    # Split
+    # Use the entire dataset as the test set
     # --------------------------------------------------
-    train_df, test_df = chrono_split(supervised, train_frac)
-    y_train = train_df["Target"].values
+    test_df = supervised
     y_test = test_df["Target"].values
     test_days = test_df["Day"].values
-
-    # --------------------------------------------------
-    # SVR baseline (local, no SIR_Base)
-    # --------------------------------------------------
-    local_feats = [c for c in supervised.columns if c.startswith(f"{target_col}_lag")]
-    X_train, X_test, _ = scale_features(train_df, test_df, local_feats)
-    local_svr_model, local_params = tune_and_train_svr(X_train, y_train, grid_search=not no_grid)
-    svr_preds = np.clip(local_svr_model.predict(X_test), 0, None)
-
-    # --------------------------------------------------
-    # Naive baseline
-    # --------------------------------------------------
-    # we built Naive in make_supervised() -> lag-1 raw
-    naive_preds = np.roll(y_test, 1)
-    naive_preds[0] = y_train[-1]
 
     # --------------------------------------------------
     # SIR test preds & metrics
@@ -178,8 +162,6 @@ def evaluate_single_dataset(csv_path, soup_model, soup_scaler, soup_features,
         ns_X_test_scaled = naive_svr_scaler.transform(ns_X_test)
         ns_resid = naive_svr_model.predict(ns_X_test_scaled)
         # add naive baseline (lag-1 actual)
-        # careful: test_df["Naive"] is today's naive pred for Target? We built Naive=lag1 raw,
-        # Target is t+1 => naive for Target is current day's actual -> shift align is correct.
         naive_base_for_target = test_df["Naive"].values
         naive_svr_preds = np.clip(naive_base_for_target + ns_resid, 0, None)
         naive_svr_metrics = compute_metrics(y_test, naive_svr_preds)
@@ -188,44 +170,30 @@ def evaluate_single_dataset(csv_path, soup_model, soup_scaler, soup_features,
         naive_svr_metrics = None
 
     # --------------------------------------------------
+    # Naive baseline
+    # --------------------------------------------------
+    naive_preds = np.roll(y_test, 1)
+    naive_preds[0] = y_test[0]  # Use first test value for first prediction
+
+    # --------------------------------------------------
     # Collect metrics
     # --------------------------------------------------
     metrics = {
         "Dataset_ID": os.path.basename(os.path.dirname(csv_path)),
-        "SVR": compute_metrics(y_test, svr_preds),
         "Naive": compute_metrics(y_test, naive_preds),
         "SOUP-S1": soup_metrics if soup_metrics else {},
         "Naive-SVR": naive_svr_metrics if naive_svr_metrics else {},
     }
     if sir_metrics:
         metrics["SIR"] = sir_metrics
+    # Optionally add more models here
 
     # --------------------------------------------------
-    # Save outputs
+    # Plotting
     # --------------------------------------------------
-    ds_dir = os.path.join(out_dir, os.path.basename(os.path.dirname(csv_path)))
-    os.makedirs(ds_dir, exist_ok=True)
-
-    preds_df = pd.DataFrame({
-        "Day": test_days,
-        "Actual": y_test,
-        "Naive": naive_preds,
-        "SVR": svr_preds,
-        "SOUP-S1": soup_preds if soup_preds is not None else [None] * len(y_test),
-        "Naive-SVR": naive_svr_preds if naive_svr_preds is not None else [None] * len(y_test),
-        "SIR": sir_preds if sir_preds is not None else [None] * len(y_test),
-    })
-    preds_df.to_csv(os.path.join(ds_dir, "predictions.csv"), index=False)
-
-    with open(os.path.join(ds_dir, "metrics.json"), "w") as f:
-        json.dump(metrics, f, indent=4)
-
     if save_plots:
-        plot_predictions(
-            test_days, y_test,
-            sir_preds, soup_preds, svr_preds, naive_preds, naive_svr_preds,
-            os.path.join(ds_dir, "plot.png")
-        )
+        plot_predictions(test_days, y_test, sir_preds, soup_preds, None, naive_preds, naive_svr_preds,
+                         os.path.join(out_dir, f"pred_plot_{os.path.basename(csv_path)}.png"))
 
     return metrics
 
