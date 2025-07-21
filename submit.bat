@@ -18,10 +18,8 @@ git add .
 
 :: Commit with timestamp
 set datetime=%date% %time%
-git commit -m "Auto commit on %datetime%"
-
-:: Push to main branch
+git commit -m "commit on %datetime%"
 git push origin main
 
-echo Changes pushed successfully!
+echo loose? I dont loose, I win , that's my job that's what i do
 pause
