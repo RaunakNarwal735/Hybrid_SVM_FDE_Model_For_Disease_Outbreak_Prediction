@@ -1,0 +1,36 @@
+{
+    "population": 490394,
+    "days": 200,
+    "initial_infected": 929,
+    "mask_score": 6,
+    "crowdedness_score": 10,
+    "quarantine_enabled": "n",
+    "seasonality_enabled": "y",
+    "interventions_enabled": "y",
+    "reporting_prob_min": 0.6,
+    "reporting_prob_max": 0.85,
+    "multi_wave": "n",
+    "random_seed": 4590,
+    "vaccination_enabled": "y",
+    "daily_vaccination_rate": 0.01,
+    "incubation_period": 5,
+    "waves": [
+        {
+            "day": 54,
+            "beta": 2.1,
+            "seed": 433
+        },
+        {
+            "day": 90,
+            "beta": 2.5,
+            "seed": 100
+        }
+    ],
+    "testing_rate": "low",
+    "mask_decay_rate": 0.01,
+    "travel_enabled": "n",
+    "travel_max": 0,
+    "mode": "interactive",
+    "layers": 3,
+    "age_groups": 3
+}
